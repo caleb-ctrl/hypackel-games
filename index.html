@@ -61,64 +61,8 @@
         canvas.width = window.innerWidth * 0.8;
         canvas.height = window.innerHeight * 0.8;
 
-        // Example of interactive shapes
-        let shapes = [];
-        for (let i = 0; i < 20; i++) {
-            shapes.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 30 + 10,
-                dx: Math.random() * 4 - 2,
-                dy: Math.random() * 4 - 2,
-                color: `hsl(${Math.random() * 360}, 100%, 50%)`
-            });
-        }
-
-        // Draw and animate shapes
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let shape of shapes) {
-                // Draw the shape
-                ctx.beginPath();
-                ctx.arc(shape.x, shape.y, shape.size, 0, Math.PI * 2);
-                ctx.fillStyle = shape.color;
-                ctx.fill();
-                ctx.closePath();
-
-                // Update position
-                shape.x += shape.dx;
-                shape.y += shape.dy;
-
-                // Bounce off edges
-                if (shape.x < shape.size || shape.x > canvas.width - shape.size) shape.dx *= -1;
-                if (shape.y < shape.size || shape.y > canvas.height - shape.size) shape.dy *= -1;
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        // Add mouse interaction
-        canvas.addEventListener('mousemove', (event) => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
-
-            for (let shape of shapes) {
-                const dist = Math.hypot(mouseX - shape.x, mouseY - shape.y);
-                if (dist < shape.size + 20) {
-                    shape.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                }
-            }
-        });
-
-        // Adjust canvas on window resize
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth * 0.8;
-            canvas.height = window.innerHeight * 0.8;
-        });
+        // Clear canvas initially
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Add game buttons functionality
         document.getElementById('addPolytrack').addEventListener('click', () => {
