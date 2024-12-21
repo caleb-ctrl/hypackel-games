@@ -11,6 +11,7 @@
             background-color: #121212;
             color: white;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -19,10 +20,36 @@
 
         canvas {
             border: 1px solid white;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #1e90ff;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007acc;
         }
     </style>
 </head>
 <body>
+    <div class="button-container">
+        <button id="addPolytrack">Add Polytrack</button>
+        <button id="addGame2">Add Game 2</button>
+        <button id="addGame3">Add Game 3</button>
+    </div>
     <canvas id="myCanvas"></canvas>
 
     <script>
@@ -91,6 +118,19 @@
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth * 0.8;
             canvas.height = window.innerHeight * 0.8;
+        });
+
+        // Add game buttons functionality
+        document.getElementById('addPolytrack').addEventListener('click', () => {
+            window.open('https://www.crazygames.com/en-us/polytrack/index.html', '_blank');
+        });
+
+        document.getElementById('addGame2').addEventListener('click', () => {
+            alert('Game 2 coming soon!');
+        });
+
+        document.getElementById('addGame3').addEventListener('click', () => {
+            alert('Game 3 coming soon!');
         });
     </script>
 </body>
