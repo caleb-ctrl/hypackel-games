@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Site</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        canvas {
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+
+    <script>
+        // Set up the canvas and context
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Resize canvas to fit the window
+        canvas.width = window.innerWidth * 0.8;
+        canvas.height = window.innerHeight * 0.8;
+
+        // Example of interactive shapes
+        let shapes = [];
+        for (let i = 0; i < 20; i++) {
+            shapes.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 30 + 10,
+                dx: Math.random() * 4 - 2,
+                dy: Math.random() * 4 - 2,
+                color: `hsl(${Math.random() * 360}, 100%, 50%)`
+            });
+        }
+
+        // Draw and animate shapes
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let shape of shapes) {
+                // Draw the shape
+                ctx.beginPath();
+                ctx.arc(shape.x, shape.y, shape.size, 0, Math.PI * 2);
+                ctx.fillStyle = shape.color;
+                ctx.fill();
+                ctx.closePath();
+
+                // Update position
+                shape.x += shape.dx;
+                shape.y += shape.dy;
+
+                // Bounce off edges
+                if (shape.x < shape.size || shape.x > canvas.width - shape.size) shape.dx *= -1;
+                if (shape.y < shape.size || shape.y > canvas.height - shape.size) shape.dy *= -1;
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Add mouse interaction
+        canvas.addEventListener('mousemove', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            for (let shape of shapes) {
+                const dist = Math.hypot(mouseX - shape.x, mouseY - shape.y);
+                if (dist < shape.size + 20) {
+                    shape.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                }
+            }
+        });
+
+        // Adjust canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth * 0.8;
+            canvas.height = window.innerHeight * 0.8;
+        });
+    </script>
+</body>
+</html>
